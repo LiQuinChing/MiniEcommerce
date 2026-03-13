@@ -20,7 +20,6 @@ function Navbar() {
 
       </div>
 
-
       {/* Right Section */}
 
       <div className="flex items-center gap-6">
@@ -37,7 +36,6 @@ function Navbar() {
 
         </button>
 
-
         {/* Profile */}
 
         <div className="flex items-center gap-2 cursor-pointer">
@@ -45,10 +43,6 @@ function Navbar() {
           <div className="w-9 h-9 bg-green-600 text-white rounded-full flex items-center justify-center">
             <FiUser />
           </div>
-
-          {/* <span className="text-sm font-medium text-gray-700">
-            Admin
-          </span> */}
 
         </div>
 

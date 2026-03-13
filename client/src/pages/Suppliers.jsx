@@ -5,7 +5,7 @@ import { FiEdit, FiTrash2, FiUsers } from "react-icons/fi";
 
 function Suppliers(){
 
-  const [suppliers,setSuppliers] = useState<any[]>([]);
+  const [suppliers,setSuppliers] = useState([]);
   const navigate = useNavigate();
 
   const loadSuppliers = async () => {
@@ -17,10 +17,11 @@ function Suppliers(){
   };
 
   useEffect(()=>{
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadSuppliers();
   },[]);
 
-  const deleteSupplier = async (id:string) => {
+  const deleteSupplier = async (id) => {
 
     if(!window.confirm("Delete this supplier?")) return;
 
@@ -30,7 +31,7 @@ function Suppliers(){
 
   };
 
-  const getSupplierStatus = (openTime: string, closeTime: string) => {
+  const getSupplierStatus = (openTime, closeTime) => {
 
     if (!openTime || !closeTime) return "Closed";
 
@@ -83,7 +84,7 @@ function Suppliers(){
 
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6">
 
-          {suppliers.map((supplier:any)=>(
+          {suppliers.map((supplier)=>(
 
             <div
               key={supplier._id}

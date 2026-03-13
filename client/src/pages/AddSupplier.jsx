@@ -1,140 +1,107 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import api from "../api/api";
 import { useNavigate } from "react-router-dom";
 import {
-  FiBox,
-  FiTag,
-  FiDollarSign,
-  FiUpload,
   FiUser,
+  FiMapPin,
+  FiTag,
+  FiClock,
+  FiUpload,
   FiX
 } from "react-icons/fi";
 
-function AddProduct() {
+function AddSupplier() {
 
   const navigate = useNavigate();
 
-  const [productName,setProductName] = useState("");
   const [supplierName,setSupplierName] = useState("");
-  const [productType,setProductType] = useState("");
-  const [productSize,setProductSize] = useState("M");
-  const [productQuantity,setProductQuantity] = useState(0);
-  const [productPrice,setProductPrice] = useState(0);
+  const [address,setAddress] = useState("");
+  const [type,setType] = useState("");
+  const [openTime,setOpenTime] = useState("");
+  const [closeTime,setCloseTime] = useState("");
 
-  const [productImage,setProductImage] = useState<File | null>(null);
-  const [preview,setPreview] = useState<string | null>(null);
+  const [supplierImage,setSupplierImage] = useState(null);
+  const [preview,setPreview] = useState(null);
   const [dragActive,setDragActive] = useState(false);
   const [uploadProgress,setUploadProgress] = useState(0);
 
-  const [suppliers,setSuppliers] = useState([]);
   const [loading,setLoading] = useState(false);
-  const [errors,setErrors] = useState<any>({});
 
-  useEffect(()=>{
 
-    const loadSuppliers = async ()=>{
 
-      const res = await api.get("/suppliers");
-
-      setSuppliers(res.data);
-
-    };
-
-    loadSuppliers();
-
-  },[]);
-
-  const validateForm = () => {
-
-    let newErrors:any = {};
-
-    if(!productName) newErrors.productName = "Product name required";
-    if(!supplierName) newErrors.supplierName = "Supplier required";
-    if(!productType) newErrors.productType = "Product type required";
-    if(productPrice <= 0) newErrors.productPrice = "Invalid price";
-    if(productQuantity < 0) newErrors.productQuantity = "Invalid quantity";
-
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
-
-  };
-
-  const handleImageChange = (e:any) => {
+  const handleImageChange = (e)=>{
 
     const file = e.target.files[0];
 
     if(file){
-
-      setProductImage(file);
-
+      setSupplierImage(file);
       setPreview(URL.createObjectURL(file));
-
     }
 
   };
 
-  const removeImage = () => {
 
-    setProductImage(null);
+
+  const removeImage = ()=>{
+
+    setSupplierImage(null);
     setPreview(null);
     setUploadProgress(0);
 
   };
 
-  const handleDragOver = (e:any) => {
+
+
+  const handleDragOver = (e)=>{
     e.preventDefault();
     setDragActive(true);
   };
 
-  const handleDragLeave = () => {
+  const handleDragLeave = ()=>{
     setDragActive(false);
   };
 
-  const handleDrop = (e:any) => {
+
+
+  const handleDrop = (e)=>{
 
     e.preventDefault();
-
     setDragActive(false);
 
     const file = e.dataTransfer.files[0];
 
     if(file){
-
-      setProductImage(file);
-
+      setSupplierImage(file);
       setPreview(URL.createObjectURL(file));
-
     }
 
   };
 
-  const handleSubmit = async (e:any)=>{
+
+
+  const handleSubmit = async (e)=>{
 
     e.preventDefault();
-
-    if(!validateForm()) return;
 
     setLoading(true);
 
     const formData = new FormData();
 
-    formData.append("productName",productName);
     formData.append("supplierName",supplierName);
-    formData.append("productType",productType);
-    formData.append("productSize",productSize);
-    formData.append("productQuantity",productQuantity.toString());
-    formData.append("productPrice",productPrice.toString());
+    formData.append("address",address);
+    formData.append("type",type);
+    formData.append("openTime",openTime);
+    formData.append("closeTime",closeTime);
 
-    if(productImage){
-      formData.append("productImage",productImage);
+    if(supplierImage){
+      formData.append("supplierImage",supplierImage);
     }
 
-    await api.post("/products",formData,{
+    await api.post("/suppliers",formData,{
       headers:{
         "Content-Type":"multipart/form-data"
       },
-      onUploadProgress:(progressEvent:any)=>{
+      onUploadProgress:(progressEvent)=>{
 
         const percent = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
@@ -147,16 +114,20 @@ function AddProduct() {
 
     setLoading(false);
 
-    alert("Product Added Successfully");
+    alert("Supplier Added Successfully");
 
-    navigate("/products");
+    navigate("/suppliers");
 
   };
 
-  const inputStyle =
-    "w-full border border-gray-300 rounded-lg p-3 pl-10 focus:ring-2 focus:ring-green-500 outline-none";
 
-  return (
+
+  const inputStyle =
+  "w-full border border-gray-300 rounded-lg p-3 pl-10 focus:ring-2 focus:ring-green-500 outline-none";
+
+
+
+  return(
 
     <div className="min-h-screen flex items-center justify-center bg-gray-100 pt-10 pb-10">
 
@@ -167,76 +138,65 @@ function AddProduct() {
         <div className="bg-gradient-to-r from-green-600 to-indigo-600 text-white p-6">
 
           <h2 className="text-2xl font-bold">
-            Add New Product
+            Add New Supplier
           </h2>
 
           <p className="text-sm opacity-80">
-            Enter product details below
+            Enter supplier details below
           </p>
 
         </div>
 
+
+
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
 
-          {/* Product Name */}
+          {/* Supplier Name */}
+
           <label className="text-sm font-semibold block mb-2">
-            Product Name
-          </label>
-
-          <div className="relative">
-
-            <FiBox className="absolute left-3 top-4 text-gray-400"/>
-
-            <input
-              type="text"
-              placeholder="Product Name"
-              className={inputStyle}
-              onChange={(e)=>setProductName(e.target.value)}
-            />
-
-            {errors.productName && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.productName}
-              </p>
-            )}
-
-          </div>
-
-          {/* Supplier */}
-          <label className="text-sm font-semibold block mb-2">
-            Product Supplier
+            Supplier Name
           </label>
 
           <div className="relative">
 
             <FiUser className="absolute left-3 top-4 text-gray-400"/>
 
-            <select
+            <input
+              type="text"
+              placeholder="Supplier Name"
               className={inputStyle}
               onChange={(e)=>setSupplierName(e.target.value)}
-            >
-
-              <option value="">Select Supplier</option>
-
-              {suppliers.map((supplier:any)=>(
-                <option key={supplier._id} value={supplier.supplierName}>
-                  {supplier.supplierName}
-                </option>
-              ))}
-
-            </select>
-
-            {errors.supplierName && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.supplierName}
-              </p>
-            )}
+            />
 
           </div>
 
-          {/* Product Type */}
+
+
+          {/* Address */}
+
           <label className="text-sm font-semibold block mb-2">
-            Product Type
+            Address
+          </label>
+
+          <div className="relative">
+
+            <FiMapPin className="absolute left-3 top-4 text-gray-400"/>
+
+            <input
+              type="text"
+              placeholder="Supplier Address"
+              className={inputStyle}
+              onChange={(e)=>setAddress(e.target.value)}
+            />
+
+          </div>
+
+
+
+          {/* Supplier Type */}
+
+          <label className="text-sm font-semibold block mb-2">
+            Supplier Type
           </label>
 
           <div className="relative">
@@ -245,73 +205,71 @@ function AddProduct() {
 
             <input
               type="text"
-              placeholder="Product Type"
+              placeholder="Supplier Type"
               className={inputStyle}
-              onChange={(e)=>setProductType(e.target.value)}
+              onChange={(e)=>setType(e.target.value)}
             />
 
           </div>
 
-          {/* Size & Quantity */}
+
+
+          {/* Open Close Time */}
 
           <div className="grid grid-cols-2 gap-4">
 
             <div>
+
               <label className="text-sm font-semibold block mb-2">
-                Product Size
+                Open Time
               </label>
 
-              <select
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
-                onChange={(e)=>setProductSize(e.target.value)}
-              >
-                <option value="S">Small</option>
-                <option value="M">Medium</option>
-                <option value="L">Large</option>
-                <option value="XL">XL</option>
-              </select>
+              <div className="relative">
+
+                <FiClock className="absolute left-3 top-4 text-gray-400"/>
+
+                <input
+                  type="time"
+                  className={inputStyle}
+                  onChange={(e)=>setOpenTime(e.target.value)}
+                />
+
+              </div>
+
             </div>
 
-             <div>
 
-              <label className="block text-sm font-semibold block mb-2">
-                Product Quantity
+
+            <div>
+
+              <label className="text-sm font-semibold block mb-2">
+                Close Time
               </label>
 
-              <input
-                type="number"
-                placeholder="Quantity"
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
-                onChange={(e)=>setProductQuantity(Number(e.target.value))}
-              />
+              <div className="relative">
+
+                <FiClock className="absolute left-3 top-4 text-gray-400"/>
+
+                <input
+                  type="time"
+                  className={inputStyle}
+                  onChange={(e)=>setCloseTime(e.target.value)}
+                />
+
+              </div>
+
             </div>
 
           </div>
 
-          {/* Price */}
-          <label className="text-sm font-semibold block mb-2">
-            Product Price
-          </label>
 
-          <div className="relative">
-
-            <FiDollarSign className="absolute left-3 top-4 text-gray-400"/>
-
-            <input
-              type="number"
-              placeholder="Price"
-              className={inputStyle}
-              onChange={(e)=>setProductPrice(Number(e.target.value))}
-            />
-
-          </div>
 
           {/* Image Upload */}
 
           <div>
 
             <label className="text-sm font-semibold block mb-2">
-              Product Image
+              Supplier Image
             </label>
 
             <div
@@ -326,6 +284,7 @@ function AddProduct() {
               {!preview && (
 
                 <>
+
                   <FiUpload className="text-3xl text-gray-400 mb-2"/>
 
                   <p className="text-gray-600 font-medium">
@@ -344,11 +303,18 @@ function AddProduct() {
                     onChange={handleImageChange}
                   />
 
-                  <label htmlFor="imageUpload" className="cursor-pointer mt-2 text-green-600 font-medium">
+                  <label
+                    htmlFor="imageUpload"
+                    className="cursor-pointer mt-2 text-green-600 font-medium"
+                  >
                     Browse Files
                   </label>
+
                 </>
+
               )}
+
+
 
               {preview && (
 
@@ -358,8 +324,6 @@ function AddProduct() {
                     src={preview}
                     className="w-40 h-40 object-cover rounded-lg border shadow"
                   />
-
-                  {/* Remove Button */}
 
                   <button
                     type="button"
@@ -374,6 +338,8 @@ function AddProduct() {
               )}
 
             </div>
+
+
 
             {/* Upload Progress */}
 
@@ -400,7 +366,9 @@ function AddProduct() {
 
           </div>
 
-          {/* Button */}
+
+
+          {/* Submit Button */}
 
           <button
             type="submit"
@@ -412,12 +380,12 @@ function AddProduct() {
 
               <>
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Adding Product...
+                Adding Supplier...
               </>
 
             ) : (
 
-              "Add Product"
+              "Add Supplier"
 
             )}
 
@@ -433,4 +401,4 @@ function AddProduct() {
 
 }
 
-export default AddProduct;
+export default AddSupplier;

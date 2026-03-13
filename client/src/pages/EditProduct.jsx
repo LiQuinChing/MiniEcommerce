@@ -2,54 +2,56 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/api";
 import {
-  FiUser,
-  FiMapPin,
-  FiClock,
+  FiBox,
+  FiTag,
+  FiDollarSign,
   FiUpload,
+  FiUser,
   FiX
 } from "react-icons/fi";
 
-function EditSupplier() {
+function EditProduct() {
 
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [supplier,setSupplier] = useState<any>({});
-  const [supplierImage,setSupplierImage] = useState<File | null>(null);
-  const [preview,setPreview] = useState<string | null>(null);
+  const [product,setProduct] = useState({});
+  const [suppliers,setSuppliers] = useState([]);
+  const [productImage,setProductImage] = useState(null);
+  const [preview,setPreview] = useState(null);
 
   const [uploadProgress,setUploadProgress] = useState(0);
   const [loading,setLoading] = useState(false);
 
   useEffect(()=>{
 
-    const loadSupplier = async ()=>{
+    const loadData = async()=>{
 
-      const res = await api.get("/suppliers");
+      const productRes = await api.get("/products");
+      const found = productRes.data.find((p)=>p._id === id);
 
-      const found = res.data.find((s:any)=>s._id === id);
+      setProduct(found);
 
-      setSupplier(found);
-
-      if(found?.supplierImage){
-        setPreview(`http://localhost:5000/uploads/suppliers/${found.supplierImage}`);
+      if(found?.productImage){
+        setPreview(`http://localhost:5000/uploads/products/${found.productImage}`);
       }
+
+      const supplierRes = await api.get("/suppliers");
+      setSuppliers(supplierRes.data);
 
     };
 
-    loadSupplier();
+    loadData();
 
   },[id]);
 
-
-
-  const handleImageChange = (e:any)=>{
+  const handleImageChange = (e)=>{
 
     const file = e.target.files[0];
 
     if(file){
 
-      setSupplierImage(file);
+      setProductImage(file);
 
       setPreview(URL.createObjectURL(file));
 
@@ -57,18 +59,14 @@ function EditSupplier() {
 
   };
 
-
-
   const removeImage = ()=>{
 
-    setSupplierImage(null);
+    setProductImage(null);
     setPreview(null);
 
   };
 
-
-
-  const handleUpdate = async (e:any)=>{
+  const handleUpdate = async (e)=>{
 
     e.preventDefault();
 
@@ -76,25 +74,26 @@ function EditSupplier() {
 
     const formData = new FormData();
 
-    formData.append("supplierName",supplier.supplierName);
-    formData.append("address",supplier.address);
-    formData.append("type",supplier.type);
-    formData.append("openTime",supplier.openTime);
-    formData.append("closeTime",supplier.closeTime);
+    formData.append("productName",product.productName);
+    formData.append("supplierName",product.supplierName);
+    formData.append("productType",product.productType);
+    formData.append("productSize",product.productSize);
+    formData.append("productQuantity",product.productQuantity);
+    formData.append("productPrice",product.productPrice);
 
-    if(supplierImage){
-      formData.append("supplierImage",supplierImage);
+    if(productImage){
+      formData.append("productImage",productImage);
     }
 
-    if(!preview){
-      formData.append("removeImage","true");
+    if (!preview && !productImage) {
+      formData.append("removeImage", "true");
     }
 
-    await api.put(`/suppliers/${id}`,formData,{
+    await api.put(`/products/${id}`,formData,{
       headers:{
         "Content-Type":"multipart/form-data"
       },
-      onUploadProgress:(progressEvent:any)=>{
+      onUploadProgress:(progressEvent)=>{
 
         const percent = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
@@ -107,18 +106,16 @@ function EditSupplier() {
 
     setLoading(false);
 
-    alert("Supplier updated successfully");
+    alert("Product updated successfully");
 
-    navigate("/suppliers");
+    navigate("/products");
 
   };
-
 
   const inputStyle =
   "w-full border border-gray-300 rounded-lg p-3 pl-10 focus:ring-2 focus:ring-green-500 outline-none";
 
-
-  return(
+  return (
 
     <div className="min-h-screen flex items-center justify-center bg-gray-100 pt-10 pb-10">
 
@@ -129,131 +126,146 @@ function EditSupplier() {
         <div className="bg-gradient-to-r from-green-600 to-indigo-600 text-white p-6">
 
           <h2 className="text-2xl font-bold">
-            Update Supplier
+            Update Product
           </h2>
 
           <p className="text-sm opacity-80">
-            Modify supplier details
+            Modify product details
           </p>
 
         </div>
 
-
         <form onSubmit={handleUpdate} className="p-6 space-y-5">
 
-
-          {/* Supplier Name */}
+          {/* Product Name */}
 
           <label className="text-sm font-semibold block mb-2">
-            Supplier Name
+            Product Name
+          </label>
+
+          <div className="relative">
+
+            <FiBox className="absolute left-3 top-4 text-gray-400"/>
+
+            <input
+              value={product.productName || ""}
+              onChange={(e)=>setProduct({...product,productName:e.target.value})}
+              className={inputStyle}
+            />
+
+          </div>
+
+          {/* Supplier */}
+
+          <label className="text-sm font-semibold block mb-2">
+            Product Supplier
           </label>
 
           <div className="relative">
 
             <FiUser className="absolute left-3 top-4 text-gray-400"/>
 
-            <input
-              value={supplier.supplierName || ""}
-              onChange={(e)=>setSupplier({...supplier,supplierName:e.target.value})}
+            <select
+              value={product.supplierName || ""}
+              onChange={(e)=>setProduct({...product,supplierName:e.target.value})}
               className={inputStyle}
-            />
+            >
+
+              <option value="">Select Supplier</option>
+
+              {suppliers.map((supplier)=>(
+                <option key={supplier._id} value={supplier.supplierName}>
+                  {supplier.supplierName}
+                </option>
+              ))}
+
+            </select>
 
           </div>
 
-
-          {/* Address */}
+          {/* Product Type */}
 
           <label className="text-sm font-semibold block mb-2">
-            Address
+            Product Type
           </label>
 
           <div className="relative">
 
-            <FiMapPin className="absolute left-3 top-4 text-gray-400"/>
+            <FiTag className="absolute left-3 top-4 text-gray-400"/>
 
             <input
-              value={supplier.address || ""}
-              onChange={(e)=>setSupplier({...supplier,address:e.target.value})}
+              value={product.productType || ""}
+              onChange={(e)=>setProduct({...product,productType:e.target.value})}
               className={inputStyle}
             />
 
           </div>
 
-
-          {/* Type */}
-
-          <label className="text-sm font-semibold block mb-2">
-            Supplier Type
-          </label>
-
-          <div className="relative">
-
-            <FiUser className="absolute left-3 top-4 text-gray-400"/>
-
-            <input
-              value={supplier.type || ""}
-              onChange={(e)=>setSupplier({...supplier,type:e.target.value})}
-              className={inputStyle}
-            />
-
-          </div>
-
-
-          {/* Open & Close Time */}
+          {/* Size + Quantity */}
 
           <div className="grid grid-cols-2 gap-4">
 
             <div>
 
               <label className="text-sm font-semibold block mb-2">
-                Open Time
+                Product Size
               </label>
 
-              <div className="relative">
+              <select
+                value={product.productSize || ""}
+                onChange={(e)=>setProduct({...product,productSize:e.target.value})}
+                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
+              >
 
-                <FiClock className="absolute left-3 top-4 text-gray-400"/>
+                <option value="S">Small</option>
+                <option value="M">Medium</option>
+                <option value="L">Large</option>
+                <option value="XL">XL</option>
 
-                <input
-                  type="time"
-                  value={supplier.openTime || ""}
-                  onChange={(e)=>setSupplier({...supplier,openTime:e.target.value})}
-                  className={inputStyle}
-                />
-
-              </div>
+              </select>
 
             </div>
-
 
             <div>
 
               <label className="text-sm font-semibold block mb-2">
-                Close Time
+                Product Quantity
               </label>
 
-              <div className="relative">
-
-                <FiClock className="absolute left-3 top-4 text-gray-400"/>
-
-                <input
-                  type="time"
-                  value={supplier.closeTime || ""}
-                  onChange={(e)=>setSupplier({...supplier,closeTime:e.target.value})}
-                  className={inputStyle}
-                />
-
-              </div>
+              <input
+                type="number"
+                value={product.productQuantity || 0}
+                onChange={(e)=>setProduct({...product,productQuantity:e.target.value})}
+                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
+              />
 
             </div>
 
           </div>
 
+          {/* Price */}
 
+          <label className="text-sm font-semibold block mb-2">
+            Product Price
+          </label>
+
+          <div className="relative">
+
+            <FiDollarSign className="absolute left-3 top-4 text-gray-400"/>
+
+            <input
+              type="number"
+              value={product.productPrice || 0}
+              onChange={(e)=>setProduct({...product,productPrice:e.target.value})}
+              className={inputStyle}
+            />
+
+          </div>
 
           {/* Image Upload */}
 
           <label className="text-sm font-semibold block mb-2">
-            Supplier Image
+            Product Image
           </label>
 
           <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-8 hover:border-green-500 transition">
@@ -261,12 +273,8 @@ function EditSupplier() {
             {!preview && (
 
               <>
-
                 <FiUpload className="text-3xl text-gray-400 mb-2"/>
-
-                <p className="text-gray-600">
-                  Click to Upload
-                </p>
+                <p className="text-gray-600">Click to Upload</p>
 
                 <input
                   type="file"
@@ -276,18 +284,12 @@ function EditSupplier() {
                   onChange={handleImageChange}
                 />
 
-                <label
-                  htmlFor="imageUpload"
-                  className="cursor-pointer text-green-600 mt-2"
-                >
+                <label htmlFor="imageUpload" className="cursor-pointer text-green-600 mt-2">
                   Browse Files
                 </label>
-
               </>
 
             )}
-
-
 
             {preview && (
 
@@ -312,8 +314,6 @@ function EditSupplier() {
 
           </div>
 
-
-
           {/* Upload Progress */}
 
           {loading && (
@@ -337,9 +337,7 @@ function EditSupplier() {
 
           )}
 
-
-
-          {/* Button */}
+          {/* Submit Button */}
 
           <button
             type="submit"
@@ -351,17 +349,16 @@ function EditSupplier() {
 
               <>
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Updating Supplier...
+                Updating Product...
               </>
 
             ) : (
 
-              "Update Supplier"
+              "Update Product"
 
             )}
 
           </button>
-
 
         </form>
 
@@ -373,4 +370,4 @@ function EditSupplier() {
 
 }
 
-export default EditSupplier;
+export default EditProduct;

@@ -5,8 +5,8 @@ import { FiEdit, FiTrash2, FiPackage } from "react-icons/fi";
 
 function Products() {
 
-  const [products, setProducts] = useState<any[]>([]);
-  const [suppliers, setSuppliers] = useState<any[]>([]);
+  const [products, setProducts] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
   const navigate = useNavigate();
 
   const loadProducts = async () => {
@@ -20,11 +20,12 @@ function Products() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadProducts();
     loadSuppliers();
   }, []);
 
-  const deleteProduct = async (id: string) => {
+  const deleteProduct = async (id) => {
 
     if (!window.confirm("Delete this product?")) return;
 
@@ -34,7 +35,7 @@ function Products() {
   };
 
   // Group products by supplier
-  const groupedProducts = products.reduce((acc: any, product: any) => {
+  const groupedProducts = products.reduce((acc, product) => {
 
     if (!acc[product.supplierName]) {
       acc[product.supplierName] = [];
@@ -60,7 +61,7 @@ function Products() {
         {Object.keys(groupedProducts).map((supplier) => {
 
           const supplierData = suppliers.find(
-            (s:any) => s.supplierName === supplier
+            (s) => s.supplierName === supplier
           );
 
           return (
@@ -98,7 +99,7 @@ function Products() {
 
               <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6">
 
-                {groupedProducts[supplier].map((product: any) => (
+                {groupedProducts[supplier].map((product) => (
 
                   <div
                     key={product._id}

@@ -29,34 +29,32 @@ function AdminFooter() {
           </p>
         </div>
 
-
         {/* Contact */}
 
         <div>
-        <h4 className="font-semibold text-white mb-3">
+          <h4 className="font-semibold text-white mb-3">
             Contact
-        </h4>
+          </h4>
 
-        <div className="space-y-3 text-sm">
+          <div className="space-y-3 text-sm">
 
             <div className="flex items-center gap-3">
-                <FiMapPin className="text-gray-400 flex-shrink-0" />
-                <span>Colombo, Sri Lanka</span>
+              <FiMapPin className="text-gray-400 flex-shrink-0" />
+              <span>Colombo, Sri Lanka</span>
             </div>
 
             <div className="flex items-center gap-3">
-                <FiPhone className="text-gray-400 flex-shrink-0" />
-                <span>+94 77 123 4567</span>
+              <FiPhone className="text-gray-400 flex-shrink-0" />
+              <span>+94 77 123 4567</span>
             </div>
 
             <div className="flex items-center gap-3">
-                <FiMail className="text-gray-400 flex-shrink-0" />
-                <span>support@susara.lk</span>
+              <FiMail className="text-gray-400 flex-shrink-0" />
+              <span>support@susara.lk</span>
             </div>
 
+          </div>
         </div>
-        </div>
-
 
         {/* Quick Links */}
 
@@ -68,37 +66,25 @@ function AdminFooter() {
           <ul className="space-y-2 text-sm">
 
             <li>
-              <Link
-                to="/products"
-                className="hover:text-green-400 transition"
-              >
+              <Link to="/products" className="hover:text-green-400 transition">
                 Products
               </Link>
             </li>
 
             <li>
-              <Link
-                to="/suppliers"
-                className="hover:text-green-400 transition"
-              >
+              <Link to="/suppliers" className="hover:text-green-400 transition">
                 Suppliers
               </Link>
             </li>
 
             <li>
-              <Link
-                to="/add-product"
-                className="hover:text-green-400 transition"
-              >
+              <Link to="/add-product" className="hover:text-green-400 transition">
                 Add Product
               </Link>
             </li>
 
             <li>
-              <Link
-                to="/add-supplier"
-                className="hover:text-green-400 transition"
-              >
+              <Link to="/add-supplier" className="hover:text-green-400 transition">
                 Add Supplier
               </Link>
             </li>
@@ -106,39 +92,36 @@ function AdminFooter() {
           </ul>
         </div>
 
-
         {/* Social */}
 
         <div>
-            <h4 className="font-semibold text-white mb-3">
-                Follow Us
-            </h4>
+          <h4 className="font-semibold text-white mb-3">
+            Follow Us
+          </h4>
 
-            <div className="flex gap-4 mt-2">
+          <div className="flex gap-4 mt-2">
 
-                <a className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-green-500 transition">
-                <FiFacebook />
-                </a>
+            <a className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-green-500 transition">
+              <FiFacebook />
+            </a>
 
-                <a className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-green-500 transition">
-                <FiInstagram />
-                </a>
+            <a className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-green-500 transition">
+              <FiInstagram />
+            </a>
 
-                <a className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-green-500 transition">
-                <FiTwitter />
-                </a>
+            <a className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-green-500 transition">
+              <FiTwitter />
+            </a>
 
-            </div>
+          </div>
         </div>
-      </div>
 
+      </div>
 
       {/* Bottom */}
 
       <div className="border-t border-gray-700 text-center text-sm py-4 text-gray-400">
-
         © {new Date().getFullYear()} Inventory Admin System. All rights reserved.
-
       </div>
 
     </footer>

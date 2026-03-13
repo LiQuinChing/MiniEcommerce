@@ -24,15 +24,12 @@ function Sidebar() {
   const handleLogout = () => {
 
     localStorage.removeItem("token");
-
     window.location.href = "/login";
 
   };
 
   return (
     <>
-      {/* Mobile Toggle */}
-
       {!open && (
         <button
           onClick={() => setOpen(true)}
@@ -41,8 +38,6 @@ function Sidebar() {
           <FiMenu size={20} />
         </button>
       )}
-
-      {/* Sidebar */}
 
       <aside
         className={`
@@ -57,90 +52,57 @@ function Sidebar() {
 
         <div className="px-6 py-5">
 
-            {/* Admin Profile */}
+          <div className="flex items-center gap-3">
 
-            <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center text-white">
+              <FiUser size={18} />
+            </div>
 
-                {/* Avatar */}
+            <div className="flex flex-col">
 
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center text-white">
-                <FiUser size={18} />
-                </div>
+              <h1 className="text-sm font-semibold text-white">
+                SUSARA Clothing
+              </h1>
 
-                {/* Admin Info */}
-
-                <div className="flex flex-col">
-
-                <h1 className="text-sm font-semibold text-white">
-                    SUSARA Clothing
-                </h1>
-
-                <span className="text-xs text-gray-400">
-                    👋 Welcome back, Admin
-                </span>
-
-                </div>
+              <span className="text-xs text-gray-400">
+                👋 Welcome back, Admin
+              </span>
 
             </div>
 
-            {/* Divider */}
+          </div>
 
-            <div className="mt-4 h-px bg-gray-800"></div>
+          <div className="mt-4 h-px bg-gray-800"></div>
 
         </div>
 
-        {/* Menu Scroll Wrapper */}
+        {/* Menu */}
 
         <div className="overflow-y-auto h-[calc(100vh-80px)] px-4">
 
           <nav className="space-y-2">
 
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive ? activeItem : menuItem
-              }
-            >
+            <NavLink to="/" className={({ isActive }) => isActive ? activeItem : menuItem}>
               <FiHome />
               Dashboard
             </NavLink>
 
-            <NavLink
-              to="/products"
-              className={({ isActive }) =>
-                isActive ? activeItem : menuItem
-              }
-            >
+            <NavLink to="/products" className={({ isActive }) => isActive ? activeItem : menuItem}>
               <FiPackage />
               Products
             </NavLink>
 
-            <NavLink
-              to="/suppliers"
-              className={({ isActive }) =>
-                isActive ? activeItem : menuItem
-              }
-            >
+            <NavLink to="/suppliers" className={({ isActive }) => isActive ? activeItem : menuItem}>
               <FiUsers />
               Suppliers
             </NavLink>
 
-            <NavLink
-              to="/add-product"
-              className={({ isActive }) =>
-                isActive ? activeItem : menuItem
-              }
-            >
+            <NavLink to="/add-product" className={({ isActive }) => isActive ? activeItem : menuItem}>
               <FiShoppingBag />
               Add Product
             </NavLink>
 
-            <NavLink
-              to="/add-supplier"
-              className={({ isActive }) =>
-                isActive ? activeItem : menuItem
-              }
-            >
+            <NavLink to="/add-supplier" className={({ isActive }) => isActive ? activeItem : menuItem}>
               <FiPlusSquare />
               Add Supplier
             </NavLink>
@@ -149,17 +111,17 @@ function Sidebar() {
 
         </div>
 
-        {/* Sidebar Footer */}
+        {/* Logout */}
 
         <div className="absolute bottom-0 left-0 w-full px-4 py-4 border-t border-gray-800">
 
-        <button
+          <button
             onClick={handleLogout}
             className="flex items-center gap-3 w-full px-4 py-3 rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition"
-        >
+          >
             <FiLogOut />
             Logout
-        </button>
+          </button>
 
         </div>
 
