@@ -114,7 +114,7 @@ function EditProduct() {
   };
 
   const inputStyle =
-  "w-full border rounded-lg p-3 pl-10 focus:ring-2 focus:ring-green-500 outline-none";
+  "w-full border border-gray-300 rounded-lg p-3 pl-10 focus:ring-2 focus:ring-green-500 outline-none";
 
   return (
 
@@ -215,7 +215,7 @@ function EditProduct() {
               <select
                 value={product.productSize || ""}
                 onChange={(e)=>setProduct({...product,productSize:e.target.value})}
-                className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
               >
 
                 <option value="S">Small</option>
@@ -237,7 +237,7 @@ function EditProduct() {
                 type="number"
                 value={product.productQuantity || 0}
                 onChange={(e)=>setProduct({...product,productQuantity:e.target.value})}
-                className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
               />
 
             </div>

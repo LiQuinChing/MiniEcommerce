@@ -123,7 +123,7 @@ function AddSupplier() {
 
 
   const inputStyle =
-  "w-full border rounded-lg p-3 pl-10 focus:ring-2 focus:ring-green-500 outline-none";
+  "w-full border border-gray-300 rounded-lg p-3 pl-10 focus:ring-2 focus:ring-green-500 outline-none";
 
 
 

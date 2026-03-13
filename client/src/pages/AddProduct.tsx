@@ -154,7 +154,7 @@ function AddProduct() {
   };
 
   const inputStyle =
-    "w-full border rounded-lg p-3 pl-10 focus:ring-2 focus:ring-green-500 outline-none";
+    "w-full border border-gray-300 rounded-lg p-3 pl-10 focus:ring-2 focus:ring-green-500 outline-none";
 
   return (
 
@@ -262,7 +262,7 @@ function AddProduct() {
               </label>
 
               <select
-                className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
                 onChange={(e)=>setProductSize(e.target.value)}
               >
                 <option value="S">Small</option>
@@ -281,7 +281,7 @@ function AddProduct() {
               <input
                 type="number"
                 placeholder="Quantity"
-                className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
+                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
                 onChange={(e)=>setProductQuantity(Number(e.target.value))}
               />
             </div>
