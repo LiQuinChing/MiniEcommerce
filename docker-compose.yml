@@ -1,0 +1,31 @@
+services:
+  user-service:
+    build:
+      context: ./user-service
+    container_name: user-service
+    environment:
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
+
+  payment-service:
+    build:
+      context: ./payment-service
+    container_name: payment-service
+    environment:
+      SERVER_PORT: 8083
+      USER_SERVICE_URL: http://user-service:8081
+    depends_on:
+      - user-service
+    ports:
+      - "8083:8083"
+
+  client:
+    build:
+      context: ./client
+    container_name: mini-ecommerce-client
+    depends_on:
+      - user-service
+      - payment-service
+    ports:
+      - "5173:80"
