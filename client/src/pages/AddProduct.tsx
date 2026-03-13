@@ -149,7 +149,7 @@ function AddProduct() {
 
     alert("Product Added Successfully");
 
-    navigate("/");
+    navigate("/products");
 
   };
 

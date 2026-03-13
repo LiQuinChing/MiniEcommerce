@@ -109,7 +109,7 @@ function EditProduct() {
 
     alert("Product updated successfully");
 
-    navigate("/");
+    navigate("/products");
 
   };
 
