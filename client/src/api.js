@@ -1,6 +1,16 @@
-// Base API helper routed through the Vite proxy to avoid CORS issues.
-const BASE_USER = '/api/users';
-const BASE_PAYMENT = '/api/payments';
+// In Kubernetes local mode, if the app is opened on http://localhost (no port),
+// route API calls to the client NodePort where Nginx proxies /api/*.
+const configuredApiOrigin = (import.meta.env.VITE_API_ORIGIN || '').replace(/\/+$/, '');
+const inferredApiOrigin =
+  typeof window !== 'undefined' &&
+  window.location.hostname === 'localhost' &&
+  window.location.port === ''
+    ? 'http://localhost:30080'
+    : '';
+
+const API_ORIGIN = configuredApiOrigin || inferredApiOrigin;
+const BASE_USER = `${API_ORIGIN}/api/users`;
+const BASE_PAYMENT = `${API_ORIGIN}/api/payments`;
 
 async function request(url, options) {
   const { headers, ...restOptions } = options ?? {};
