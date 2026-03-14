@@ -20,8 +20,8 @@ RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy your custom Nginx configuration
-# Ensure the path "nginx/default.conf" matches your folder structure
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+# Ensure the path use client/nginx.conf matches your folder structure
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

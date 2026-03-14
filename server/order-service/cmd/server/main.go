@@ -97,7 +97,7 @@ func orderHandler(w http.ResponseWriter, r *http.Request) {
 		// INTER-SERVICE COMMUNICATION
 		paymentURL := os.Getenv("PAYMENT_SERVICE_URL")
 		if paymentURL == "" {
-			paymentURL = "http://payment-service.default.svc.cluster.local:80/api/payments"
+			paymentURL = "http://payment-service:8083"
 		}
 
 		paymentPayload, _ := json.Marshal(map[string]interface{}{
