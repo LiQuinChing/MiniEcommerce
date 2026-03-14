@@ -112,12 +112,13 @@ func orderHandler(w http.ResponseWriter, r *http.Request) {
 		// INTER-SERVICE COMMUNICATION
 		paymentURL := os.Getenv("PAYMENT_SERVICE_URL")
 		if paymentURL == "" {
-			paymentURL = "http://payment-service:8083/payments"
+			// CHANGED: Point to the new internal endpoint
+			paymentURL = "http://payment-service:8083/payments/internal"
 		}
 
 		paymentPayload, _ := json.Marshal(map[string]interface{}{
 			"orderId":       orderIDNum,
-			"userId":        userID, // Now dynamically matches the token!
+			"userId":        userID, // This uses the ID extracted from the JWT earlier
 			"amount":        totalAmount,
 			"paymentMethod": "CREDIT_CARD",
 		})
@@ -125,6 +126,7 @@ func orderHandler(w http.ResponseWriter, r *http.Request) {
 		reqToPayment, _ := http.NewRequest("POST", paymentURL, bytes.NewBuffer(paymentPayload))
 		reqToPayment.Header.Set("Content-Type", "application/json")
 
+		// We still send the Authorization header just in case, but it won't trigger 403 anymore
 		if authHeader != "" {
 			reqToPayment.Header.Set("Authorization", authHeader)
 		}
