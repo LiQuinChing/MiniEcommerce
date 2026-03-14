@@ -11,6 +11,12 @@ spec:
     - path:
         type: PathPrefix
         value: /api/orders
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /orders
     backendRefs:
     - name: order-service
       port: 80
@@ -18,6 +24,12 @@ spec:
     - path:
         type: PathPrefix
         value: /api/users
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /users
     backendRefs:
     - name: user-service
       port: 8081
@@ -25,6 +37,12 @@ spec:
     - path:
         type: PathPrefix
         value: /api/payments
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /payments
     backendRefs:
     - name: payment-service
       port: 8083

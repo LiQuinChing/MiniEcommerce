@@ -51,6 +51,17 @@ export default function HomePage() {
       cta: role === 'ADMIN' ? 'View All Payments' : 'View History',
       show: !!email,
     },
+    {
+      title: 'Order List',
+      description:
+        role === 'ADMIN'
+          ? 'See all the orders done by the customers and manage them.'
+          : 'Make an order for the products you want to buy.',
+      to: '/orders',
+      icon: <OrdersIcon />,
+      cta: role === 'ADMIN' ? 'View All Orders' : 'View Orders',
+      show: !!email,
+    },
   ].filter((card) => card.show);
 
   return (
@@ -145,7 +156,22 @@ function HistoryIcon() {
     </svg>
   );
 }
-
+function OrdersIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      className="w-7 h-7"
+      aria-hidden="true"
+    >
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+      <polyline points="3.3 7 12 12 20.7 7" />
+      <line x1="12" y1="22" x2="12" y2="12" />
+    </svg>
+  );
+}
 function ServiceInfo({ name, port, color, paths }) {
   return (
     <div className="border border-gray-100 rounded-xl p-4">

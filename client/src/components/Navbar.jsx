@@ -65,6 +65,11 @@ export default function Navbar() {
                   Manage Customers
                 </Link>
               )}
+              {role === 'ADMIN' && (
+                <Link to="/orders" className="hover:text-indigo-200 transition-colors">
+                  Manage Orders
+                </Link>
+              )}
               <Link to="/profile" className="hover:text-indigo-200 transition-colors">
                 Profile
               </Link>
