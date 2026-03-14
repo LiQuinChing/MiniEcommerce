@@ -35,7 +35,7 @@ import lombok.RequiredArgsConstructor;
  * Provides endpoints for registration, login, and user profile retrieval
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 @Tag(name = "User Management", description = "APIs for user registration, authentication, and profile management")
 public class UserController {

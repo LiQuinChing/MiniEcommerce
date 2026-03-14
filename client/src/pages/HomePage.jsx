@@ -51,6 +51,17 @@ export default function HomePage() {
       cta: role === 'ADMIN' ? 'View All Payments' : 'View History',
       show: !!email,
     },
+    {
+      title: 'Orders List',
+      description:
+        role === 'ADMIN'
+          ? 'Browse the full order history of all customers with search and filtering.'
+          : 'Browse your past orders with status, amount, and transaction details.',
+      to: '/orders',
+      icon: <HistoryIcon />,
+      cta: role === 'ADMIN' ? 'View All Orders' : 'View Orders',
+      show: !!email,
+    },
   ].filter((card) => card.show);
 
   return (

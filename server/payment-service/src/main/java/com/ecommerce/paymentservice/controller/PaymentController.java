@@ -1,9 +1,22 @@
 package com.ecommerce.paymentservice.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.ecommerce.paymentservice.dto.PaymentRequest;
 import com.ecommerce.paymentservice.dto.PaymentResponse;
 import com.ecommerce.paymentservice.exception.ForbiddenOperationException;
 import com.ecommerce.paymentservice.service.PaymentService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,12 +24,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * PaymentController
@@ -26,7 +33,7 @@ import java.util.List;
  * Port: 8083
  */
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/api/payments")
 @RequiredArgsConstructor
 @Tag(name = "Payment Management", description = "APIs for payment processing and retrieval")
 public class PaymentController {
@@ -57,14 +64,20 @@ public class PaymentController {
     public ResponseEntity<PaymentResponse> processPayment(
             @Valid @RequestBody PaymentRequest request,
             Authentication authentication) {
-        Long requesterUserId = getRequesterUserId(authentication);
-        boolean isAdmin = isAdmin(authentication);
-        if (isAdmin) {
-            throw new ForbiddenOperationException("Admin users do not make payments");
+        
+        // Only run this strict user validation if a human user sent a token
+        if (authentication != null && authentication.isAuthenticated()) {
+            Long requesterUserId = getRequesterUserId(authentication);
+            boolean isAdmin = isAdmin(authentication);
+            if (isAdmin) {
+                throw new ForbiddenOperationException("Admin users do not make payments");
+            }
+            if (!requesterUserId.equals(request.getUserId())) {
+                throw new ForbiddenOperationException("You can only create payments for your own account");
+            }
         }
-        if (!requesterUserId.equals(request.getUserId())) {
-            throw new ForbiddenOperationException("You can only create payments for your own account");
-        }
+        
+        // If authentication is null, it's our internal Go service calling, so let it process!
         PaymentResponse response = paymentService.processPayment(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

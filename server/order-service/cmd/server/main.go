@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
@@ -92,7 +91,9 @@ func orderHandler(w http.ResponseWriter, r *http.Request) {
 		for _, item := range req.Cart {
 			totalAmount += float64(item.Quantity) * item.UnitPrice
 		}
-		orderID := fmt.Sprintf("ORD-%d", time.Now().Unix())
+		// Java expects orderId as a Long (Number), so we use a Unix timestamp integer
+		numericOrderID := time.Now().Unix()
+		stringOrderID := fmt.Sprintf("ORD-%d", numericOrderID) // Keep string version for your DB
 
 		// INTER-SERVICE COMMUNICATION
 		paymentURL := os.Getenv("PAYMENT_SERVICE_URL")
@@ -100,31 +101,36 @@ func orderHandler(w http.ResponseWriter, r *http.Request) {
 			paymentURL = "http://payment-service.default.svc.cluster.local:80/api/payments"
 		}
 
+		// Updated to match Java's PaymentRequest.java DTO exactly!
 		paymentPayload, _ := json.Marshal(map[string]interface{}{
-			"order_id": orderID,
-			"amount":   totalAmount,
+			"orderId":       numericOrderID,
+			"userId":        1, // Hardcoded user ID for now
+			"amount":        totalAmount,
+			"paymentMethod": "CREDIT_CARD", // Added required field
 		})
 
-		resp, err := http.Post(paymentURL, "application/json", bytes.NewBuffer(paymentPayload))
+		// Use http.NewRequest so we can add headers if needed for Spring Security
+		reqPayment, _ := http.NewRequest("POST", paymentURL, bytes.NewBuffer(paymentPayload))
+		reqPayment.Header.Set("Content-Type", "application/json")
+
+		client := &http.Client{}
+		resp, err := client.Do(reqPayment)
 
 		paymentStatus := "Pending Payment"
 		paymentMessage := "Failed to reach payment service"
 
-		if err == nil && resp.StatusCode == http.StatusOK {
+		if err == nil {
 			defer resp.Body.Close()
-			paymentData, _ := io.ReadAll(resp.Body)
-
-			// Extract transaction ID from Payment Service JSON
-			var paymentJSON map[string]interface{}
-			json.Unmarshal(paymentData, &paymentJSON)
-			if txnID, ok := paymentJSON["transaction_id"].(string); ok {
-				paymentStatus = fmt.Sprintf("Paid (%s)", txnID)
+			if resp.StatusCode == http.StatusCreated || resp.StatusCode == http.StatusOK {
+				paymentStatus = "Paid Successfully"
+				paymentMessage = "Order is sent to make the payment. Java Service Confirmed!"
+			} else {
+				paymentMessage = fmt.Sprintf("Java Service returned error code: %d", resp.StatusCode)
 			}
-			paymentMessage = "Order is sent to make the payment"
 		}
 
 		newOrder := OrderResponse{
-			OrderID:        orderID,
+			OrderID:        stringOrderID,
 			Cart:           req.Cart,
 			TotalPrice:     totalAmount,
 			OrderStatus:    "Confirmed",

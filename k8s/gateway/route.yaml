@@ -14,6 +14,15 @@ spec:
     backendRefs:
     - name: order-service
       port: 80
+  # --- NEW RULE FOR USER SERVICE ---
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/users
+    backendRefs:
+    - name: user-service
+      port: 80
+  # ---------------------------------  
   - matches:
     - path:
         type: PathPrefix
