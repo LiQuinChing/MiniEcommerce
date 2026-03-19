@@ -1,5 +1,6 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import Products from "./pages/Products";
 import AddProducts from "./pages/AddProduct";
@@ -13,43 +14,52 @@ import AddSupplier from './pages/AddSupplier';
 import Suppliers from './pages/Suppliers';
 import EditSupplier from './pages/EditSupplier';
 
+import OrderPage from "./pages/OrderPage";
+
 function App() {
 
   return (
 
-    <BrowserRouter>
+    <>
+      <Toaster position="bottom-left" reverseOrder={false} />
 
-      <div className="flex">
+        <BrowserRouter>
 
-        <Sidebar />
+        <div className="flex">
 
-        <div className="flex-1 ml-64 flex flex-col min-h-screen">
+          <Sidebar />
 
-          <Navbar />
+          <div className="flex-1 ml-64 flex flex-col min-h-screen">
 
-          <main className="flex-1">
+            <Navbar />
 
-            <Routes>
+            <main className="flex-1">
 
-              <Route path="/products" element={<Products />} />
-              <Route path="/add-product" element={<AddProducts />} />
-              <Route path="/edit-product/:id" element={<EditProduct />} />
+              <Routes>
 
-              <Route path="/suppliers" element={<Suppliers />} />
-              <Route path="/add-supplier" element={<AddSupplier />} />
-              <Route path="/edit-supplier/:id" element={<EditSupplier />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/add-product" element={<AddProducts />} />
+                <Route path="/edit-product/:id" element={<EditProduct />} />
 
-            </Routes>
+                <Route path="/suppliers" element={<Suppliers />} />
+                <Route path="/add-supplier" element={<AddSupplier />} />
+                <Route path="/edit-supplier/:id" element={<EditSupplier />} />
 
-          </main>
+                <Route path="/orders" element={<OrderPage />} />
 
-          <AdminFooter />
+              </Routes>
+
+            </main>
+
+            <AdminFooter />
+
+          </div>
 
         </div>
 
-      </div>
+      </BrowserRouter>
 
-    </BrowserRouter>
+    </>
 
   );
 

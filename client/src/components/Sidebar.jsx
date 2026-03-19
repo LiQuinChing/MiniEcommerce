@@ -7,6 +7,7 @@ import {
   FiPlusSquare,
   FiShoppingBag,
   FiMenu,
+  FiShoppingCart,
   FiLogOut
 } from "react-icons/fi";
 import { useState } from "react";
@@ -58,14 +59,14 @@ function Sidebar() {
               <FiUser size={18} />
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-1">
 
               <h1 className="text-sm font-semibold text-white">
                 SUSARA Clothing
               </h1>
 
               <span className="text-xs text-gray-400">
-                👋 Welcome back, Admin
+                Welcome back, Admin 👋
               </span>
 
             </div>
@@ -105,6 +106,11 @@ function Sidebar() {
             <NavLink to="/add-supplier" className={({ isActive }) => isActive ? activeItem : menuItem}>
               <FiPlusSquare />
               Add Supplier
+            </NavLink>
+
+            <NavLink to="/orders" className={({ isActive }) => isActive ? activeItem : menuItem}>
+              <FiShoppingCart />
+              Orders
             </NavLink>
 
           </nav>

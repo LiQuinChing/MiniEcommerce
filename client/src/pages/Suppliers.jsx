@@ -1,5 +1,5 @@
 import { useEffect,useState } from "react";
-import api from "../api/api";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { FiEdit, FiTrash2, FiUsers } from "react-icons/fi";
 
@@ -17,6 +17,7 @@ function Suppliers(){
   };
 
   useEffect(()=>{
+    document.title = "SUSARA Clothing | Suppliers";
     // eslint-disable-next-line react-hooks/set-state-in-effect
     loadSuppliers();
   },[]);
@@ -59,9 +60,9 @@ function Suppliers(){
 
         {/* Page Title */}
 
-        <h1 className="text-3xl font-bold mb-10 flex items-center gap-2">
+        <h1 className="text-3xl font-extrabold mb-10 flex items-center gap-2">
           <FiUsers />
-          Supplier Management
+          <span className="text-green-600">SUSARA Clothing</span> - Supplier Management
         </h1>
 
 
@@ -96,7 +97,7 @@ function Suppliers(){
               <div className="relative">
 
                 <img
-                  src={`http://localhost:5000/uploads/suppliers/${supplier.supplierImage}`}
+                  src={`http://localhost:8888/uploads/suppliers/${supplier.supplierImage}`}
                   className="h-48 w-full object-cover"
                 />
 
@@ -125,7 +126,7 @@ function Suppliers(){
                   {supplier.supplierImage && (
 
                     <img
-                      src={`http://localhost:5000/uploads/suppliers/${supplier.supplierImage}`}
+                      src={`http://localhost:8888/uploads/suppliers/${supplier.supplierImage}`}
                       className="w-10 h-10 rounded-full object-cover border"
                     />
 
@@ -145,13 +146,17 @@ function Suppliers(){
                   Type: {supplier.type}
                 </p>
 
-                <div className="flex justify-center items-center gap-2 flex-wrap pt-2">
+                <div className="flex justify-left flex-wrap pt-2">
 
-                  <span className="bg-green-100 text-green-700 text-xs font-medium px-3 py-1 rounded-full">
+                  <span className="bg-green-100 text-green-700 text-xs font-medium font-semibold px-3 py-1 rounded-full">
                     Open: {supplier.openTime}
                   </span>
+                  
+                </div>
 
-                  <span className="bg-red-100 text-red-700 text-xs font-medium px-3 py-1 rounded-full">
+                <div className="flex justify-left flex-wrap pb-2">
+
+                  <span className="bg-red-100 text-red-700 text-xs font-medium font-semibold px-3 py-1 rounded-full">
                     Close: {supplier.closeTime}
                   </span>
 

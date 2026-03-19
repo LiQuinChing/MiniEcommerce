@@ -1,5 +1,5 @@
-import { useState } from "react";
-import api from "../api/api";
+import { useState, useEffect } from "react";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 import {
   FiUser,
@@ -9,6 +9,7 @@ import {
   FiUpload,
   FiX
 } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 function AddSupplier() {
 
@@ -27,7 +28,9 @@ function AddSupplier() {
 
   const [loading,setLoading] = useState(false);
 
-
+  useEffect(()=>{
+    document.title = "SUSARA Clothing | Add Supplier";
+  },[]);
 
   const handleImageChange = (e)=>{
 
@@ -40,8 +43,6 @@ function AddSupplier() {
 
   };
 
-
-
   const removeImage = ()=>{
 
     setSupplierImage(null);
@@ -49,8 +50,6 @@ function AddSupplier() {
     setUploadProgress(0);
 
   };
-
-
 
   const handleDragOver = (e)=>{
     e.preventDefault();
@@ -60,8 +59,6 @@ function AddSupplier() {
   const handleDragLeave = ()=>{
     setDragActive(false);
   };
-
-
 
   const handleDrop = (e)=>{
 
@@ -76,8 +73,6 @@ function AddSupplier() {
     }
 
   };
-
-
 
   const handleSubmit = async (e)=>{
 
@@ -114,18 +109,20 @@ function AddSupplier() {
 
     setLoading(false);
 
-    alert("Supplier Added Successfully");
+    toast.success("Supplier Added Successfully!", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
 
     navigate("/suppliers");
 
   };
 
-
-
   const inputStyle =
   "w-full border border-gray-300 rounded-lg p-3 pl-10 focus:ring-2 focus:ring-green-500 outline-none";
-
-
 
   return(
 

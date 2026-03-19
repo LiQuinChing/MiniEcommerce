@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../api/api";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 import {
   FiBox,
@@ -9,6 +9,7 @@ import {
   FiUser,
   FiX
 } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 function AddProduct() {
 
@@ -31,6 +32,8 @@ function AddProduct() {
   const [errors,setErrors] = useState({});
 
   useEffect(()=>{
+
+    document.title = "SUSARA Clothing | Add Product";
 
     const loadSuppliers = async ()=>{
 
@@ -139,7 +142,13 @@ function AddProduct() {
 
     setLoading(false);
 
-    alert("Product Added Successfully");
+    toast.success("Product Added Successfully!", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
 
     navigate("/products");
 

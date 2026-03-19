@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../api/api";
+import api from "../api";
 import {
   FiUser,
   FiMapPin,
@@ -8,6 +8,7 @@ import {
   FiUpload,
   FiX
 } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 function EditSupplier() {
 
@@ -22,6 +23,8 @@ function EditSupplier() {
   const [loading,setLoading] = useState(false);
 
   useEffect(()=>{
+
+    document.title = "SUSARA Clothing | Add Supplier";
 
     const loadSupplier = async ()=>{
 
@@ -107,7 +110,13 @@ function EditSupplier() {
 
     setLoading(false);
 
-    alert("Supplier updated successfully");
+    toast.success("Supplier Updated Successfully!", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
 
     navigate("/suppliers");
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../api/api";
+import api from "../api";
 import {
   FiBox,
   FiTag,
@@ -9,6 +9,7 @@ import {
   FiUser,
   FiX
 } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 function EditProduct() {
 
@@ -24,6 +25,8 @@ function EditProduct() {
   const [loading,setLoading] = useState(false);
 
   useEffect(()=>{
+
+    document.title = "SUSARA Clothing | Update Product";
 
     const loadData = async()=>{
 
@@ -106,7 +109,13 @@ function EditProduct() {
 
     setLoading(false);
 
-    alert("Product updated successfully");
+    toast.success("Product Updated Successfully!", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
 
     navigate("/products");
 
