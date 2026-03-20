@@ -1,3 +1,10 @@
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:8888/api",
+});
+
+export default api;
 // Base API helper routed through the Vite proxy to avoid CORS issues.
 const BASE_USER = '/api/users';
 const BASE_PAYMENT = '/api/payments';

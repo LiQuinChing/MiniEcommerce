@@ -7,10 +7,47 @@ spec:
   parentRefs:
   - name: ecommerce-gateway
   rules:
+
+  - matches:
+      - path:
+          type: PathPrefix
+          value: /api/products
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /products
+    backendRefs:
+      - name: product-service
+        port: 5000
+
   - matches:
     - path:
         type: PathPrefix
-        value: /api/orders
+        value: /uploads
+    backendRefs:
+      - name: product-service
+        port: 5000
+
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/suppliers
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /suppliers
+    backendRefs:
+      - name: product-service
+        port: 5000
+
+  - matches:
+      - path:
+          type: PathPrefix
+          value: /api/orders
     filters:
     - type: URLRewrite
       urlRewrite:
@@ -18,8 +55,9 @@ spec:
           type: ReplacePrefixMatch
           replacePrefixMatch: /orders
     backendRefs:
-    - name: order-service
-      port: 80
+      - name: order-service
+        port: 8080
+        
   - matches:
     - path:
         type: PathPrefix
@@ -33,6 +71,7 @@ spec:
     backendRefs:
     - name: user-service
       port: 8081
+      
   - matches:
     - path:
         type: PathPrefix
@@ -46,6 +85,7 @@ spec:
     backendRefs:
     - name: payment-service
       port: 8083
+
   - matches:
     - path:
         type: PathPrefix

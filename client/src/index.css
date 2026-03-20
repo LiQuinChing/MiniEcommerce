@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+body {
+  font-family:Arial, Helvetica, sans-serif;
+  font-size: 15px;
 :root {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-synthesis: none;
