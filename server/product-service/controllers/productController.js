@@ -27,11 +27,63 @@ const axios = require("axios");
 // };
 
 // inter-service communication with Go order service
+// exports.sendProductsToOrder = async (req, res) => {
+
+//   try {
+
+//     const { productId, action } = req.body;
+
+//     const product = await Product.findById(productId);
+
+//     if (!product) {
+//       return res.status(404).json({ message: "Product not found" });
+//     }
+
+//     if (action === "add") {
+
+//       const response = await axios.post(
+//         "http://order-service:8080/api/orders",
+//         {
+//           cart: [
+//             {
+//               product_id: product._id,
+//               product_name: product.productName,
+//               quantity: 1,
+//               unit_price: product.productPrice
+//             }
+//           ]
+//         }
+//       );
+
+//       return res.json({
+//         message: "Product sent to order",
+//         order: response.data
+//       });
+
+//     }
+
+//     if (action === "remove") {
+
+//       // OPTIONAL: remove (not implemented in Go)
+//       return res.json({
+//         message: "Product removed from order"
+//       });
+
+//     }
+
+//   } catch (err) {
+
+//     res.status(500).json({
+//       message: "Order service communication failed"
+//     });
+
+//   }
+
+// };
+
 exports.sendProductsToOrder = async (req, res) => {
-
   try {
-
-    const { productId, action } = req.body;
+    const { productId } = req.body;
 
     const product = await Product.findById(productId);
 
@@ -39,46 +91,40 @@ exports.sendProductsToOrder = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    if (action === "add") {
-
-      const response = await axios.post(
-        "http://order-service.default.svc.cluster.local:8080/api/orders",
-        {
-          cart: [
-            {
-              product_id: product._id,
-              product_name: product.productName,
-              quantity: 1,
-              unit_price: product.productPrice
-            }
-          ]
-        }
-      );
-
-      return res.json({
-        message: "Product sent to order",
-        order: response.data
-      });
-
+    // 🚨 Check stock
+    if (product.productQuantity <= 0) {
+      return res.status(400).json({ message: "Out of stock" });
     }
 
-    if (action === "remove") {
+    // ✅ Reduce quantity
+    product.productQuantity -= 1;
+    await product.save();
 
-      // OPTIONAL: remove (not implemented in Go)
-      return res.json({
-        message: "Product removed from order"
-      });
+    // ✅ Send to order-service
+    const response = await axios.post(
+      "http://order-service:8080/api/orders",
+      {
+        cart: [
+          {
+            product_id: product._id,
+            product_name: product.productName,
+            quantity: 1,
+            unit_price: product.productPrice
+          }
+        ]
+      }
+    );
 
-    }
+    res.json({
+      message: "Product sent to order",
+      order: response.data
+    });
 
   } catch (err) {
-
     res.status(500).json({
       message: "Order service communication failed"
     });
-
   }
-
 };
 
 exports.createProduct = async (req, res) => {
