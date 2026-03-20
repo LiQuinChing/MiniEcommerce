@@ -57,34 +57,6 @@ spec:
     backendRefs:
       - name: order-service
         port: 8080
-        
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /api/users
-    filters:
-    - type: URLRewrite
-      urlRewrite:
-        path:
-          type: ReplacePrefixMatch
-          replacePrefixMatch: /users
-    backendRefs:
-    - name: user-service
-      port: 8081
-      
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /api/payments
-    filters:
-    - type: URLRewrite
-      urlRewrite:
-        path:
-          type: ReplacePrefixMatch
-          replacePrefixMatch: /payments
-    backendRefs:
-    - name: payment-service
-      port: 8083
 
   - matches:
     - path:

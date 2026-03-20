@@ -14,15 +14,7 @@ export default function OrderPage() {
 
       // Only show the toast if we manually clicked refresh AND there are more orders
       if (isManualRefresh && data && data.length > orders.length) {
-        // Grab the most recently added order (assuming it's the last one in the list)
-         const latestOrder = data[data.length - 1];
-
-         // Check if the Go service flagged the payment as failed
-         if (latestOrder.payment_message.includes("Failed") || latestOrder.payment_status === "Pending Payment") {
-             toast.error(`Order saved, but failed to send to payment service: ${latestOrder.payment_message}`, { duration: 10000 });
-         } else {
-             toast.success(`New order arrived! Order is sent to make the payment. ${latestOrder.payment_message}`, { duration: 10000 });
-         }
+         toast.success("New order arrived! Order is sent to make the payment.");
       }
 
       setOrders(data || []);
@@ -57,9 +49,9 @@ export default function OrderPage() {
       <Toaster position="top-right" reverseOrder={false} />
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Admin Order Dashboard</h1>
+          <h1 className="text-3xl font-extrabold text-gray-800">Admin Order Dashboard</h1>
           <button 
-            onClick={() => fetchOrders(true)}
+            onClick={fetchOrders}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
           >
             Refresh List
