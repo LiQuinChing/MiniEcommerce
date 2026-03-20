@@ -6,7 +6,6 @@ import Products from "./pages/Products";
 import AddProducts from "./pages/AddProduct";
 import EditProduct from "./pages/EditProduct";
 
-import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import AdminFooter from "./components/AdminFooter";
 

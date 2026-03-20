@@ -31,13 +31,25 @@ function OrderProducts() {
         productId
       });
 
-      toast.success("Product Added to order 🛒");
+      toast.success("Product Added to order 🛒", {
+        style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+        },
+      });
 
       loadProducts(); // refresh quantity
 
     // eslint-disable-next-line no-unused-vars
     } catch (err) {
-      toast.error("Failed to send product");
+      toast.error("Failed to send product", {
+        style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+        },
+      });
     }
   };
 
