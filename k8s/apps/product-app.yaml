@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: product-service
-        image: product-service:1.0
+        image: local-product-service:v3
         imagePullPolicy: Never
         ports:
         - containerPort: 5000
@@ -37,5 +37,6 @@ spec:
   selector:
     app: product-service
   ports:
-  - port: 5000
-    targetPort: 5000
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
