@@ -121,7 +121,7 @@ function AdminFooter() {
       {/* Bottom */}
 
       <div className="border-t border-gray-700 text-center text-sm py-4 text-gray-400">
-        © {new Date().getFullYear()} Inventory Admin System. All rights reserved.
+        © {new Date().getFullYear()} SUSARA Clothing. All rights reserved.
       </div>
 
     </footer>

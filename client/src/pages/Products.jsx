@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { FiEdit, FiTrash2, FiPackage } from "react-icons/fi";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 function Products() {
 
   const [products, setProducts] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
-  const [selectedProducts, setSelectedProducts] = useState({});
+  // const [selectedProducts, setSelectedProducts] = useState({});
   const navigate = useNavigate();
 
   // ================= LOAD DATA =================
@@ -25,32 +25,32 @@ function Products() {
 
   // ================= SYNC WITH ORDER SERVICE =================
 
-  const syncToggleWithOrders = async () => {
-    try {
-      const res = await fetch("http://localhost:8888/api/orders");
-      const orders = await res.json();
+  // const syncToggleWithOrders = async () => {
+  //   try {
+  //     const res = await fetch("http://localhost:8888/api/orders");
+  //     const orders = await res.json();
 
-      const map = {};
+  //     const map = {};
 
-      orders.forEach(order => {
-        order.cart.forEach(item => {
-          map[item.product_id] = true;
-        });
-      });
+  //     orders.forEach(order => {
+  //       order.cart.forEach(item => {
+  //         map[item.product_id] = true;
+  //       });
+  //     });
 
-      setSelectedProducts(map);
+  //     setSelectedProducts(map);
 
-    } catch (err) {
-      console.error("Failed to sync orders", err);
-    }
-  };
+  //   } catch (err) {
+  //     console.error("Failed to sync orders", err);
+  //   }
+  // };
 
   useEffect(() => {
     document.title = "SUSARA Clothing | Products";
     // eslint-disable-next-line react-hooks/set-state-in-effect
     loadProducts();
     loadSuppliers();
-    syncToggleWithOrders(); // 🔥 important
+    // syncToggleWithOrders();
   }, []);
 
   // ================= DELETE PRODUCT =================
@@ -66,34 +66,34 @@ function Products() {
 
   // ================= TOGGLE =================
 
-  const toggleOrder = async (productId) => {
+  // const toggleOrder = async (productId) => {
 
-    const isSelected = selectedProducts[productId];
+  //   const isSelected = selectedProducts[productId];
 
-    try {
+  //   try {
 
-      await api.post("/products/send-products", {
-        productId,
-        action: isSelected ? "remove" : "add"
-      });
+  //     await api.post("/products/send-products", {
+  //       productId,
+  //       action: isSelected ? "remove" : "add"
+  //     });
 
-      setSelectedProducts(prev => ({
-        ...prev,
-        [productId]: !isSelected
-      }));
+  //     setSelectedProducts(prev => ({
+  //       ...prev,
+  //       [productId]: !isSelected
+  //     }));
 
-      toast.success(
-        isSelected
-          ? "Product removed from order"
-          : "Product sent to order"
-      );
+  //     toast.success(
+  //       isSelected
+  //         ? "Product removed from order"
+  //         : "Product sent to order"
+  //     );
 
-    // eslint-disable-next-line no-unused-vars
-    } catch (error) {
-      toast.error("Failed to update order");
-    }
+  //   // eslint-disable-next-line no-unused-vars
+  //   } catch (error) {
+  //     toast.error("Failed to update order");
+  //   }
 
-  };
+  // };
 
   // ================= GROUP PRODUCTS =================
 
@@ -119,7 +119,7 @@ function Products() {
 
         <h1 className="text-3xl font-extrabold mb-10 flex items-center gap-2">
           <FiPackage />
-          <span className="text-green-600">SUSARA Clothing</span> - Product Catalogue
+          <span className="text-green-600"> SUSARA Clothing</span> - Product Catalogue
         </h1>
 
         {Object.keys(groupedProducts).map((supplier) => {
@@ -228,7 +228,7 @@ function Products() {
 
                       </div>
 
-                      {/* Toggle */}
+                      {/* Toggle
                       <div className="flex items-center justify-between mt-3">
 
                         <span className="text-xs text-gray-500">
@@ -248,7 +248,7 @@ function Products() {
                           />
                         </button>
 
-                      </div>
+                      </div> */}
 
                     </div>
 

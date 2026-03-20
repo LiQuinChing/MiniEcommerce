@@ -62,7 +62,7 @@ function Suppliers(){
 
         <h1 className="text-3xl font-extrabold mb-10 flex items-center gap-2">
           <FiUsers />
-          <span className="text-green-600">SUSARA Clothing</span> - Supplier Management
+          <span className="text-green-600"> SUSARA Clothing</span> - Supplier Management
         </h1>
 
 

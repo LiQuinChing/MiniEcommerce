@@ -83,10 +83,10 @@ function Sidebar() {
 
           <nav className="space-y-2">
 
-            <NavLink to="/" className={({ isActive }) => isActive ? activeItem : menuItem}>
+            {/* <NavLink to="/" className={({ isActive }) => isActive ? activeItem : menuItem}>
               <FiHome />
               Dashboard
-            </NavLink>
+            </NavLink> */}
 
             <NavLink to="/products" className={({ isActive }) => isActive ? activeItem : menuItem}>
               <FiPackage />

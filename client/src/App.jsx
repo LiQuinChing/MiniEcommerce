@@ -14,6 +14,8 @@ import AddSupplier from './pages/AddSupplier';
 import Suppliers from './pages/Suppliers';
 import EditSupplier from './pages/EditSupplier';
 
+import OrderProducts from './pages/OrderProducts';
+
 import OrderPage from "./pages/OrderPage";
 
 function App() {
@@ -31,8 +33,6 @@ function App() {
 
           <div className="flex-1 ml-64 flex flex-col min-h-screen">
 
-            <Navbar />
-
             <main className="flex-1">
 
               <Routes>
@@ -44,6 +44,8 @@ function App() {
                 <Route path="/suppliers" element={<Suppliers />} />
                 <Route path="/add-supplier" element={<AddSupplier />} />
                 <Route path="/edit-supplier/:id" element={<EditSupplier />} />
+
+                <Route path="/order-products" element={<OrderProducts />} />
 
                 <Route path="/orders" element={<OrderPage />} />
 
