@@ -119,7 +119,7 @@ function Products() {
 
         <h1 className="text-3xl font-extrabold mb-10 flex items-center gap-2">
           <FiPackage />
-          <span className="text-green-600"> SUSARA Clothing</span> - Product Catalogue
+          <span className="text-green-600"> SUSARA Clothing</span> - Product Management
         </h1>
 
         {Object.keys(groupedProducts).map((supplier) => {

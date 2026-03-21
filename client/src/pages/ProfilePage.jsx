@@ -105,7 +105,7 @@ export default function ProfilePage() {
       {user && (
         <div className="bg-white rounded-2xl shadow-lg p-8 space-y-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center text-2xl font-bold text-indigo-600">
+            <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center text-2xl font-bold text-green-600">
               {user.name.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
@@ -156,14 +156,14 @@ export default function ProfilePage() {
                 {role !== 'ADMIN' && (
                   <Link
                     to="/payment"
-                    className="inline-flex items-center gap-2 border border-indigo-300 hover:bg-indigo-50 text-indigo-700 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+                    className="inline-flex items-center gap-2 border border-green-300 hover:bg-green-50 text-green-700 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
                   >
                     Make a Payment
                   </Link>
                 )}
                 <Link
                   to="/payments"
-                  className="inline-flex items-center gap-2 border border-indigo-300 hover:bg-indigo-50 text-indigo-700 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 border border-green-300 hover:bg-green-50 text-green-700 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
                 >
                   {role === 'ADMIN' ? 'View Payment History' : 'Payment History'}
                 </Link>
@@ -218,14 +218,14 @@ export default function ProfilePage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white text-sm font-bold px-4 py-2 rounded-lg transition-color"
                 >
                   {saving ? 'Saving...' : 'Save Profile'}
                 </button>
                 <button
                   type="button"
                   onClick={cancelEditing}
-                  className="inline-flex items-center gap-2 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-bold px-4 py-2 rounded-lg transition-colors"
                 >
                   Cancel
                 </button>

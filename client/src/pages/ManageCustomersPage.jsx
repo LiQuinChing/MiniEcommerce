@@ -46,7 +46,7 @@ export default function ManageCustomersPage() {
         </div>
         <div className="bg-white rounded-xl shadow-sm px-4 py-3 text-right">
           <p className="text-xs text-gray-400 uppercase tracking-wider">Visible Users</p>
-          <p className="text-2xl font-bold text-indigo-600">{filteredUsers.length}</p>
+          <p className="text-2xl font-bold text-green-600">{filteredUsers.length}</p>
         </div>
       </div>
 

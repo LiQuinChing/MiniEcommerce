@@ -110,7 +110,7 @@ export default function PaymentPage() {
         <h2 className="text-2xl font-bold text-gray-800 mb-1">Process Payment</h2>
         <p className="text-sm text-gray-500 mb-6">
           Paying as user ID{' '}
-          <span className="font-semibold text-indigo-600">#{userId}</span>
+          <span className="font-semibold text-green-600">#{userId}</span>
         </p>
 
         {error && (
@@ -160,8 +160,8 @@ export default function PaymentPage() {
                   key={method}
                   className={`flex items-center gap-2 border rounded-lg px-3 py-2 cursor-pointer text-sm transition-colors ${
                     form.paymentMethod === method
-                      ? 'border-indigo-500 bg-indigo-50 text-indigo-700 font-medium'
-                      : 'border-gray-200 hover:border-indigo-300 text-gray-600'
+                      ? 'border-green-500 bg-green-50 text-green-700 font-medium'
+                      : 'border-gray-200 hover:border-green-300 text-gray-600'
                   }`}
                 >
                   <input
@@ -170,7 +170,7 @@ export default function PaymentPage() {
                     value={method}
                     checked={form.paymentMethod === method}
                     onChange={handle}
-                    className="accent-indigo-600"
+                    className="accent-green-600"
                   />
                   {method.replace('_', ' ')}
                 </label>
@@ -181,7 +181,7 @@ export default function PaymentPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white font-semibold py-2.5 rounded-lg transition-colors mt-2"
+            className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white font-semibold py-2.5 rounded-lg transition-colors mt-2"
           >
             {loading ? 'Processing...' : 'Pay Now'}
           </button>

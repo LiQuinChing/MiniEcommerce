@@ -83,7 +83,7 @@ export default function PaymentHistoryPage() {
         {role !== 'ADMIN' && (
           <Link
             to="/payment"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+            className="bg-green-600 hover:bg-green-700 text-white font-bold text-sm px-4 py-2 rounded-lg transition-colors"
           >
             + New Payment
           </Link>
@@ -103,7 +103,7 @@ export default function PaymentHistoryPage() {
             {role === 'ADMIN' ? 'No payments have been recorded yet.' : 'No payments found for this user.'}
           </p>
           {role !== 'ADMIN' && (
-            <Link to="/payment" className="mt-4 inline-block text-indigo-600 hover:underline text-sm font-medium">
+            <Link to="/payment" className="mt-4 inline-block text-green-600 hover:underline text-sm font-medium">
               Make your first payment →
             </Link>
           )}

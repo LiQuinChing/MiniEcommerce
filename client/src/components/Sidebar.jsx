@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   FiUser,
   FiHome,
@@ -10,11 +11,16 @@ import {
   FiShoppingCart,
   FiLogOut
 } from "react-icons/fi";
-import { useState } from "react";
+import { useAuth } from '../AuthContext';
+import { getUserById } from '../api';
+import toast from "react-hot-toast";
 
 function Sidebar() {
 
   const [open, setOpen] = useState(false);
+  const { email, role, token, userId, logout } = useAuth();
+  const navigate = useNavigate();
+  const [displayName, setDisplayName] = useState('');
 
   const menuItem =
     "flex items-center gap-3 px-4 py-3 rounded-lg transition hover:bg-gray-700";
@@ -22,10 +28,46 @@ function Sidebar() {
   const activeItem =
     "flex items-center gap-3 px-4 py-3 rounded-lg bg-green-600";
 
+  useEffect(() => {
+    let isActive = true;
+
+    if (!email || !userId) {
+      setDisplayName('');
+      return () => {
+        isActive = false;
+      };
+    }
+
+    getUserById(userId, token)
+      .then((user) => {
+        if (!isActive) {
+          return;
+        }
+        const firstPiece = user?.name?.trim()?.split(/\s+/)?.[0] ?? '';
+        setDisplayName(firstPiece);
+      })
+      .catch(() => {
+        if (isActive) {
+          setDisplayName('');
+        }
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [email, token, userId]);
+
   const handleLogout = () => {
 
-    localStorage.removeItem("token");
-    window.location.href = "/login";
+    logout();
+    toast.success("Logged out Successfully!", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
+    navigate('/login');
 
   };
 
@@ -66,7 +108,7 @@ function Sidebar() {
               </h1>
 
               <span className="text-xs text-gray-400">
-                Welcome back, Admin 👋
+                Welcome back, {displayName || "Admin"} 👋
               </span>
 
             </div>
@@ -83,10 +125,10 @@ function Sidebar() {
 
           <nav className="space-y-2">
 
-            {/* <NavLink to="/" className={({ isActive }) => isActive ? activeItem : menuItem}>
+            <NavLink to="/" className={({ isActive }) => isActive ? activeItem : menuItem}>
               <FiHome />
               Dashboard
-            </NavLink> */}
+            </NavLink>
 
             <NavLink to="/products" className={({ isActive }) => isActive ? activeItem : menuItem}>
               <FiPackage />
@@ -108,9 +150,24 @@ function Sidebar() {
               Add Supplier
             </NavLink>
 
-            <NavLink to="/orders" className={({ isActive }) => isActive ? activeItem : menuItem}>
+            <NavLink to="/admin/orders" className={({ isActive }) => isActive ? activeItem : menuItem}>
               <FiShoppingCart />
-              Orders
+              Manage Orders
+            </NavLink>
+
+            <NavLink to="/customers" className={({ isActive }) => isActive ? activeItem : menuItem}>
+              <FiUsers />
+              Manage Customers
+            </NavLink>
+
+            <NavLink to="/payments" className={({ isActive }) => isActive ? activeItem : menuItem}>
+              <FiShoppingBag />
+              Payment History
+            </NavLink>
+
+            <NavLink to="/profile" className={({ isActive }) => isActive ? activeItem : menuItem}>
+              <FiUser />
+              Profile
             </NavLink>
 
           </nav>
@@ -123,7 +180,7 @@ function Sidebar() {
 
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 w-full px-4 py-3 rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition"
+            className="flex items-center gap-3 w-full px-4 py-3 rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition cursor-pointer"
           >
             <FiLogOut />
             Logout

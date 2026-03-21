@@ -7,6 +7,8 @@ import { AuthProvider, useAuth } from "./AuthContext";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import AdminFooter from "./components/AdminFooter";
+import CustomerFooter from "./components/CustomerFooter";
+import Footer from "./components/Footer";
 
 import HomePage from "./pages/HomePage";
 import RegisterPage from "./pages/RegisterPage";
@@ -44,19 +46,56 @@ function AdminRoute({ children }) {
 function UserRoute({ children }) {
   const { token, role } = useAuth();
   if (!token) return <Navigate to="/login" replace />;
-  return role === "USER" ? children : <Navigate to="/" replace />;
+  return role === "CUSTOMER" ? children : <Navigate to="/" replace />;
 }
 
-// 🧱 Admin Layout
-function AdminLayout({ children }) {
-  return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1 ml-64 flex flex-col min-h-screen">
-        <main className="flex-1">{children}</main>
-        <AdminFooter />
+// // 🧱 Admin Layout
+// function AdminLayout({ children }) {
+//   return (
+//     <div className="flex">
+//       <Sidebar />
+//       <div className="flex-1 ml-64 flex flex-col min-h-screen">
+//         <main className="flex-1">{children}</main>
+//         <AdminFooter />
+//       </div>
+//     </div>
+//   );
+// }
+
+function Layout({ children }) {
+  const { role, token } = useAuth();
+
+  // Not logged in → show normal Navbar
+  if (!token) {
+    return (
+      <>
+        <Navbar />
+          {children}
+        <Footer/>
+      </>
+    );
+  }
+
+  // Admin → Sidebar layout ONLY
+  if (role === "ADMIN") {
+    return (
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1 ml-64 flex flex-col min-h-screen">
+          <main className="flex-1">{children}</main>
+          <AdminFooter />
+        </div>
       </div>
-    </div>
+    );
+  }
+
+  // Customer → Navbar and customer footer only
+  return (
+    <>
+      <Navbar />
+        {children}
+      <CustomerFooter/>
+    </>
   );
 }
 
@@ -65,8 +104,8 @@ function AppRoutes() {
   return (
     <div className="min-h-screen bg-slate-100">
       <Toaster position="bottom-left" reverseOrder={false} />
-      <Navbar />
 
+      <Layout>
       <Routes>
         {/* Public */}
         <Route path="/" element={<HomePage />} />
@@ -85,17 +124,17 @@ function AppRoutes() {
         <Route
           path="/payment"
           element={
-            <ProtectedRoute>
+            <UserRoute>
               <PaymentPage />
-            </ProtectedRoute>
+            </UserRoute>
           }
         />
         <Route
           path="/payments"
           element={
-            <ProtectedRoute>
+            <UserRoute>
               <PaymentHistoryPage />
-            </ProtectedRoute>
+            </UserRoute>
           }
         />
         <Route
@@ -120,9 +159,7 @@ function AppRoutes() {
           path="/customers"
           element={
             <AdminRoute>
-              <AdminLayout>
                 <ManageCustomersPage />
-              </AdminLayout>
             </AdminRoute>
           }
         />
@@ -131,9 +168,7 @@ function AppRoutes() {
           path="/products"
           element={
             <AdminRoute>
-              <AdminLayout>
                 <Products />
-              </AdminLayout>
             </AdminRoute>
           }
         />
@@ -141,9 +176,7 @@ function AppRoutes() {
           path="/add-product"
           element={
             <AdminRoute>
-              <AdminLayout>
                 <AddProducts />
-              </AdminLayout>
             </AdminRoute>
           }
         />
@@ -151,9 +184,7 @@ function AppRoutes() {
           path="/edit-product/:id"
           element={
             <AdminRoute>
-              <AdminLayout>
                 <EditProduct />
-              </AdminLayout>
             </AdminRoute>
           }
         />
@@ -162,9 +193,7 @@ function AppRoutes() {
           path="/suppliers"
           element={
             <AdminRoute>
-              <AdminLayout>
                 <Suppliers />
-              </AdminLayout>
             </AdminRoute>
           }
         />
@@ -172,9 +201,7 @@ function AppRoutes() {
           path="/add-supplier"
           element={
             <AdminRoute>
-              <AdminLayout>
                 <AddSupplier />
-              </AdminLayout>
             </AdminRoute>
           }
         />
@@ -182,9 +209,16 @@ function AppRoutes() {
           path="/edit-supplier/:id"
           element={
             <AdminRoute>
-              <AdminLayout>
                 <EditSupplier />
-              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/orders"
+          element={
+            <AdminRoute>
+              <OrderPage />
             </AdminRoute>
           }
         />
@@ -192,6 +226,7 @@ function AppRoutes() {
         {/* fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      </Layout>
     </div>
   );
 }
