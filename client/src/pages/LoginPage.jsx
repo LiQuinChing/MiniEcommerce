@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../api';
 import { useAuth } from '../AuthContext';
+import toast from 'react-hot-toast';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -21,6 +22,13 @@ export default function LoginPage() {
     try {
       const res = await loginUser(form);
       login({ token: res.token, userId: res.userId, email: res.email, role: res.role });
+      toast.success("Logged in Successfully!", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
       navigate('/');
     } catch (err) {
       setError(err.message);
@@ -35,7 +43,7 @@ export default function LoginPage() {
         <h2 className="text-2xl font-bold text-gray-800 mb-1">Welcome back</h2>
         <p className="text-sm text-gray-500 mb-6">
           Don't have an account?{' '}
-          <Link to="/register" className="text-indigo-600 hover:underline font-medium">
+          <Link to="/register" className="text-green-600 hover:underline font-medium">
             Sign up
           </Link>
         </p>
@@ -76,7 +84,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white font-semibold py-2.5 rounded-lg transition-colors"
+            className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white font-semibold py-2.5 rounded-lg transition-colors"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>

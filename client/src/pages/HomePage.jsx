@@ -67,9 +67,9 @@ export default function HomePage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-extrabold text-gray-800 mb-3">E-Commerce Platform</h1>
+        <h1 className="text-4xl font-extrabold text-gray-800 mb-3">SUSARA Clothing E-Commerce Platform</h1>
         {email && (
-          <div className="mt-4 inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-full px-4 py-1.5 text-sm font-medium">
+          <div className="mt-4 inline-flex items-center gap-2 bg-green-50 border border-green-100 text-green-700 rounded-full px-4 py-1.5 text-sm font-medium">
             Logged in as <span className="font-bold">{email}</span>
           </div>
         )}
@@ -81,12 +81,12 @@ export default function HomePage() {
             key={card.to}
             className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col"
           >
-            <div className="text-indigo-500 mb-4">{card.icon}</div>
+            <div className="text-green-500 mb-4">{card.icon}</div>
             <h3 className="text-lg font-semibold text-gray-800 mb-2">{card.title}</h3>
             <p className="text-sm text-gray-500 flex-1 mb-4">{card.description}</p>
             <Link
               to={card.to}
-              className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg text-center transition-colors"
+              className="inline-block bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-lg text-center transition-colors"
             >
               {card.cta}
             </Link>

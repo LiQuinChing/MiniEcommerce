@@ -19,6 +19,7 @@ function OrderProducts() {
   };
 
   useEffect(() => {
+    document.title = "SUSARA Clothing | Order Products";
     // eslint-disable-next-line react-hooks/set-state-in-effect
     loadProducts();
     loadSuppliers();
@@ -141,13 +142,13 @@ function OrderProducts() {
                       <button
                         onClick={() => sendToOrder(product._id)}
                         disabled={product.productQuantity <= 0}
-                        className={`w-full flex items-center justify-center gap-2 py-2 rounded-lg text-white transition
+                        className={`w-full flex items-center justify-center gap-2 py-2 rounded-lg text-white transition font-bold
                           ${product.productQuantity > 0
                             ? "bg-green-600 hover:bg-green-700"
                             : "bg-gray-400 cursor-not-allowed"}
                         `}
                       >
-                        <FiShoppingCart />
+                        <FiShoppingCart strokeWidth={3} className="w-4 h-4"/>
                         {product.productQuantity > 0
                           ? "Add to Order"
                           : "Unavailable"}

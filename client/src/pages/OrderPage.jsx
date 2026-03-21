@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { FiRefreshCcw } from 'react-icons/fi';
 
 export default function OrderPage() {
   const [orders, setOrders] = useState([]);
@@ -19,9 +20,21 @@ export default function OrderPage() {
 
          // Check if the Go service flagged the payment as failed
          if (latestOrder.payment_message.includes("Failed") || latestOrder.payment_status === "Pending Payment") {
-             toast.error(`Order saved, but failed to send to payment service: ${latestOrder.payment_message}`, { duration: 10000 });
+            toast.error(`Order saved, but failed to send to payment service: ${latestOrder.payment_message}`, { duration: 10000 }, {
+              style: {
+                borderRadius: "10px",
+                background: "#333",
+                color: "#fff",
+              },
+            });
          } else {
-             toast.success(`New order arrived! Order is sent to make the payment. ${latestOrder.payment_message}`, { duration: 10000 });
+            toast.success(`New order arrived! Order is sent to make the payment. ${latestOrder.payment_message}`, { duration: 10000 }, {
+              style: {
+                borderRadius: "10px",
+                background: "#333",
+                color: "#fff",
+              },
+            });
          }
       }
 
@@ -39,11 +52,23 @@ export default function OrderPage() {
         method: 'DELETE',
       });
       // Refresh the list after deleting
-      toast.success(`Order ${orderId} deleted successfully!`); 
+      toast.success(`Order ${orderId} deleted successfully!`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      }); 
       fetchOrders();
     } catch (error) {
       console.error("Failed to delete order:", error);
-      toast.error(`Failed to delete order ${orderId}.`);
+      toast.error(`Failed to delete order ${orderId}.`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
     }
   };
 
@@ -57,12 +82,12 @@ export default function OrderPage() {
       <Toaster position="top-right" reverseOrder={false} />
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Admin Order Dashboard</h1>
+          <h1 className="text-3xl font-extrabold text-gray-800">Admin Order Dashboard</h1>
           <button 
             onClick={() => fetchOrders(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition font-bold flex gap-3"
           >
-            Refresh List
+            <FiRefreshCcw strokeWidth={3} className="w-5 h-5"/>Refresh List
           </button>
         </div>
 

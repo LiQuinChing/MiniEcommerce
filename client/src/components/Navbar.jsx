@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { getUserById } from '../api';
 import { useAuth } from '../AuthContext';
+import { FiLogOut } from 'react-icons/fi';
+import toast from 'react-hot-toast';
 
 export default function Navbar() {
   const { email, role, token, userId, logout } = useAuth();
@@ -39,59 +41,109 @@ export default function Navbar() {
 
   function handleLogout() {
     logout();
+    toast.success("Logged out Successfully!", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
     navigate('/login');
   }
 
   return (
-    <nav className="bg-indigo-700 text-white shadow-md">
-      <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link to="/" className="text-xl font-bold tracking-tight hover:text-indigo-200 transition-colors">
-          E-Commerce
-        </Link>
+    <nav className="bg-gray-800 text-white shadow-md font-bold">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+        <NavLink to="/" className="text-xl font-extrabold tracking-tight hover:text-green-200 transition-colors">
+          SUSARA Clothing
+        </NavLink>
 
-        <div className="flex items-center gap-5 text-sm font-medium">
+        <div className="flex items-center gap-5 text-sm font-medium tracking-wide">
           {email ? (
             <>
+                <NavLink to="/" className={({ isActive }) =>
+                    isActive
+                      ? "font-bold text-green-300"
+                      : "font-medium hover:text-green-200"
+                  }>
+                  Dashboard
+                </NavLink>
+                <NavLink to="/order-products" className={({ isActive }) =>
+                    isActive
+                      ? "font-bold text-green-300"
+                      : "font-medium hover:text-green-200"
+                  }>
+                  Available Products
+                </NavLink>
               {role !== 'ADMIN' && (
-                <Link to="/payment" className="hover:text-indigo-200 transition-colors">
+                <NavLink to="/payment" className={({ isActive }) =>
+                    isActive
+                      ? "font-bold text-green-300"
+                      : "font-medium hover:text-green-200"
+                  }>
                   Make Payment
-                </Link>
+                </NavLink>
               )}
-              <Link to="/payments" className="hover:text-indigo-200 transition-colors">
+              <NavLink to="/payments" className={({ isActive }) =>
+                  isActive
+                    ? "font-bold text-green-300"
+                    : "font-medium hover:text-green-200"
+                }>
                 {role === 'ADMIN' ? 'Payment History' : 'My Payments'}
-              </Link>
+              </NavLink>
               {role === 'ADMIN' && (
-                <Link to="/customers" className="hover:text-indigo-200 transition-colors">
+                <NavLink to="/customers" className={({ isActive }) =>
+                    isActive
+                      ? "font-bold text-green-300"
+                      : "font-medium hover:text-green-200"
+                  }>
                   Manage Customers
-                </Link>
+                </NavLink>
               )}
               {role === 'ADMIN' && (
-                <Link to="/orders" className="hover:text-indigo-200 transition-colors">
+                <NavLink to="/orders" className={({ isActive }) =>
+                    isActive
+                      ? "font-bold text-green-300"
+                      : "font-medium hover:text-green-200"
+                  }>
                   Manage Orders
-                </Link>
+                </NavLink>
               )}
-              <Link to="/profile" className="hover:text-indigo-200 transition-colors">
+              <NavLink to="/profile" className={({ isActive }) =>
+                  isActive
+                    ? "font-bold text-green-300"
+                    : "font-medium hover:text-green-200"
+                }>
                 Profile
-              </Link>
-              <span className="text-indigo-300 text-xs hidden sm:block">{displayName || email}</span>
+              </NavLink>
+              <div className="hidden sm:flex items-center gap-2 bg-gray-700 px-3 py-1.5 rounded-full cursor-pointer">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-r from-green-400 to-emerald-600 flex items-center justify-center text-xs font-bold text-white">
+                  {(displayName || email)?.charAt(0).toUpperCase()}
+                </div>
+
+                <span className="text-sm text-white font-medium">
+                  {displayName || email}
+                </span>
+              </div>
+              {/* <span className="text-indigo-300 text-xs hidden sm:block">{displayName || email}</span> */}
               <button
                 onClick={handleLogout}
-                className="bg-indigo-500 hover:bg-indigo-400 px-3 py-1.5 rounded-md transition-colors"
+                className="bg-red-500 hover:bg-red-400 px-3 py-1.5 rounded-md transition-colors flex gap-3 font-bold cursor-pointer"
               >
-                Logout
+                <FiLogOut strokeWidth={3} className="w-5 h-5"/> Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="hover:text-indigo-200 transition-colors">
+              <NavLink to="/login" className="hover:text-green-200 transition-colors font-bold">
                 Login
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/register"
-                className="bg-white text-indigo-700 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
+                className="bg-green-600 text-white hover:bg-green-700 px-3 py-1.5 rounded-md transition-colors font-bold"
               >
                 Register
-              </Link>
+              </NavLink>
             </>
           )}
         </div>
