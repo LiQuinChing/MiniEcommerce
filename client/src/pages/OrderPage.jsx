@@ -86,7 +86,7 @@ export default function OrderPage() {
       <Toaster position="top-right" reverseOrder={false} />
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Admin Order Dashboard</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Order Management</h1>
           <button 
             onClick={() => fetchOrders(true)}
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition font-bold flex gap-3"
