@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Public: registration and login
                         .requestMatchers(HttpMethod.POST, "/users/register", "/users/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users/health").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                         // Public: internal endpoint used by payment-service (inter-service call)
                         .requestMatchers("/users/internal/**").permitAll()

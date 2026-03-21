@@ -85,17 +85,17 @@ function AppRoutes() {
         <Route
           path="/payment"
           element={
-            <UserRoute>
+            <ProtectedRoute>
               <PaymentPage />
-            </UserRoute>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/payments"
           element={
-            <UserRoute>
+            <ProtectedRoute>
               <PaymentHistoryPage />
-            </UserRoute>
+            </ProtectedRoute>
           }
         />
         <Route
