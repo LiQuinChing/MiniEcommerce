@@ -4,7 +4,6 @@ const api = axios.create({
   baseURL: "http://localhost:8888/api",
 });
 
-export default api;
 // Base API helper routed through the Vite proxy to avoid CORS issues.
 const BASE_USER = '/api/users';
 const BASE_PAYMENT = '/api/payments';
@@ -70,3 +69,5 @@ export const getPaymentById = (id, token) =>
   request(`${BASE_PAYMENT}/${id}`, {
     headers: token ? { Authorization: `Bearer ${token}` } : undefined,
   });
+
+export default api;
