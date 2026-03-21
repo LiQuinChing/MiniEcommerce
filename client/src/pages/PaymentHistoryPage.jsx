@@ -20,6 +20,10 @@ export default function PaymentHistoryPage() {
   const [statusFilter, setStatusFilter] = useState('ALL');
 
   useEffect(() => {
+    document.title = "SUSARA Clothing | My Payments";
+  }, []);
+
+  useEffect(() => {
     if (!authUserId) {
       setError('No user ID provided.');
       setLoading(false);

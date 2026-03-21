@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { processPayment } from '../api';
 import { useAuth } from '../AuthContext';
@@ -17,6 +17,10 @@ export default function PaymentPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState(null);
+
+  useEffect(() => {
+    document.title = "SUSARA Clothing | Make Payment";
+  }, []);
 
   function handle(e) {
     setForm({ ...form, [e.target.name]: e.target.value });

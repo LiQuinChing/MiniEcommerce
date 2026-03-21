@@ -117,7 +117,7 @@ function Products() {
 
       <div className="max-w-7xl mx-auto">
 
-        <h1 className="text-3xl font-extrabold mb-10 flex items-center gap-2">
+        <h1 className="text-3xl font-bold mb-10 flex items-center gap-2">
           <FiPackage />
           <span className="text-green-600"> SUSARA Clothing</span> - Product Management
         </h1>

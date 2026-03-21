@@ -68,7 +68,7 @@ function OrderProducts() {
 
       <div className="max-w-7xl mx-auto">
 
-        <h1 className="text-3xl font-extrabold mb-10">
+        <h1 className="text-3xl font-bold mb-10">
           🛒<span className="text-green-600"> SUSARA Clothing</span> - Order Products
         </h1>
 

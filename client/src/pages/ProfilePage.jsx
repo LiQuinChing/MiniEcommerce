@@ -14,6 +14,10 @@ export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
+    document.title = "SUSARA Clothing | My Profile";
+  }, []);
+
+  useEffect(() => {
     if (!userId) {
       setError('No user ID');
       setLoading(false);

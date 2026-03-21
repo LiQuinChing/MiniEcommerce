@@ -11,6 +11,10 @@ export default function ManageCustomersPage() {
   const [roleFilter, setRoleFilter] = useState('CUSTOMERS');
 
   useEffect(() => {
+    document.title = "SUSARA Clothing | Manage Users";
+  }, []);
+
+  useEffect(() => {
     setLoading(true);
     setError('');
     getUsers(token)

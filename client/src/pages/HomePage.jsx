@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
 export default function HomePage() {
   const { email, role } = useAuth();
+
+  useEffect(() => {
+    document.title = "SUSARA Clothing | Dashboard";
+  }, []);
 
   const cards = [
     {
